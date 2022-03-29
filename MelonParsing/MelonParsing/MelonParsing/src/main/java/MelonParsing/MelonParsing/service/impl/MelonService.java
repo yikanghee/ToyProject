@@ -122,7 +122,6 @@ public class MelonService implements IMelonService {
 
         }else{
             rList = new LinkedList<>();
-
         }
 
         log.info(this.getClass().getName() + ".getSingerSong End!");

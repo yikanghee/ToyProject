@@ -233,7 +233,12 @@ public class MelonMapper extends AbstractMongoDBComon implements IMelonMapper {
         List<Document> list = new ArrayList<>();
 
         // 람다식 활용
-        pList.forEach(melon -> list.add(new Document(new ObjectMapper().convertValue(melon, Map.class))));
+        pList.stream().forEach(melon -> list.add(new Document(new ObjectMapper().convertValue(melon, Map.class))));
+        // stream -> 병렬식으로 변경
+        // forEach -> 각 데이터를 담음
+        // melon 형식으로
+        // DTO에 담기 위해서 Map 형식으로 바꾸어 Document에 넣음
+        // 이유는 Document의 부모가 Map이기 때문
 
         // 레코드 리스트 단위로 한번에 저장하기
         col.insertMany(list);
