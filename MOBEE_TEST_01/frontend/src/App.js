@@ -15,13 +15,9 @@ function App() {
             });
         }, []);
 
-
   return (
-      <div>
+      <HashRouter>
 
-          <MovieSearchContainer/>
-          Hello Movie
-      </div>
   );
 }
 
