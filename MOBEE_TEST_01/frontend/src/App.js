@@ -16,8 +16,9 @@ function App() {
         }, []);
 
   return (
-      <HashRouter>
+      <MovieSearchContainer>
 
+      </MovieSearchContainer>
   );
 }
 
