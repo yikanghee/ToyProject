@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const DiaryItem = ({onEdit ,onRemove, author, content, created_date, emotion, id}) => {
     
@@ -7,6 +7,7 @@ const DiaryItem = ({onEdit ,onRemove, author, content, created_date, emotion, id
     const toggleIsEdit = () => setIsEdit(!isEdit);
 
     const [localContent,setLocalContent] = useState(content);
+    const localContentInput = useRef();
 
     const handleRemove = () => {
         if(window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)){
@@ -18,14 +19,20 @@ const DiaryItem = ({onEdit ,onRemove, author, content, created_date, emotion, id
         setIsEdit(false);
         setLocalContent(content);
     }
+
     const handleEdit =() => {
 
         if(localContent.length < 5) {
+            localContentInput.current.focus();
             return;
         }
-        
-        onEdit(id,localContent)
+
+        if(window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)){
+        onEdit(id,localContent);
+        toggleIsEdit();
     }
+    }
+    
     return( 
     <div className="DiaryItem">
         <div className="info">
@@ -38,7 +45,9 @@ const DiaryItem = ({onEdit ,onRemove, author, content, created_date, emotion, id
         </div>
         <div className="content">{isEdit ? (
         <>
-            <textarea value={localContent}
+            <textarea 
+            ref={localContentInput}
+            value={localContent}
                 onChange={(e) => setLocalContent(e.target.value)}
                 />
         </>
