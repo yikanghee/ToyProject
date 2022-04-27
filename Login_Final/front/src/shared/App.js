@@ -6,6 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { history } from '../redux/configStore';
 
 // 페이지
+import Main from '../pages/Main';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 
@@ -19,6 +20,7 @@ const App = (props) => {
     <React.Fragment>
       <ConnectedRouter history={history}>
         <Switch>
+          <Route path='/' exact component={Main} />
           <Route path='/login' exact component={Login} />
           <Route path='/signup' exact component={Signup} />
         </Switch>

@@ -116,7 +116,7 @@ const logoutStorage = () => {
   return function (dispatch, getState, { history }) {
     const id = getState().user.username; // eslint-disable-line no-unused-vars
     localStorage.removeItem("is_token");
-    localStorage.removeItem("login_id")
+    localStorage.removeItem("login_id");
     dispatch(logOut());
     window.alert('로그아웃 되었습니다.');
     // 로그아웃 후 메인페이지로

@@ -30,7 +30,7 @@ const Login = (props) => {
         <div className="header_box">
           <h1 className="ridi_logo"
             onClick={() => { history.push('/') }}
-          >RIDIBOOKS</h1>
+          >MOVEE</h1>
         </div>
         <div className="container">
           <div className="form_box">

@@ -1,0 +1,20 @@
+// header.scss
+.header{
+    width: 70vw;
+    min-width: 320px;
+    max-width: 800px;
+    margin: 5px auto;
+  }
+  
+  .navigator__hr{
+    margin: 0px;
+    width: 100%;
+  }
+  
+  .headerLine{
+    margin: 0px;
+  }
+  
+  .logo-bold{
+    font-weight: 900;
+  }
