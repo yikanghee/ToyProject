@@ -39,12 +39,15 @@ const Navigator = (props) => {
           <li className="nav-item">
               <a className="nav-link"
                 // 클릭시 메인
-                onClick={() => { history.push('/Main')}}
+                onClick={() => { history.push('/CommunityP')}}
               ><span className="logo-bold">커뮤니티</span></a>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#com">커뮤니티</a>
+              <a className="nav-link"
+                // 클릭시 메인
+                onClick={() => { history.push('/MobeeP')}}
+              ><span className="logo-bold">영화</span></a>
             </li>
 
             <li className="nav-item">              
