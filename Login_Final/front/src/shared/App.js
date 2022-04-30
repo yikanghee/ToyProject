@@ -11,6 +11,7 @@ import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import CommunityP from '../pages/CommunityP';
 import MobeeP from '../pages/MobeeP';
+
 // 부트스트랩
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch } from 'react-router-dom';

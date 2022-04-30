@@ -78,35 +78,11 @@ const loginAPI = (id, pwd) => {
           window.alert('로그인되었습니다.');
           history.push('/');
         }
-      }).catch((error) => {
+      }).catch((err or) => {
         console.log(error);
         window.alert(error);
       })
 
-
-    // fetch(API, {
-    //   method: "POST",
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     username: id,
-    //     password: pwd,
-    //   })
-    // })
-    //   .then(response => response.json())
-    //   .then(response => {
-    //     if (response.token) {
-    //       // 로컬스토리지 저장
-    //       localStorage.setItem("is_token", response.token);
-    //       localStorage.setItem("login_id", id);
-    //       dispatch(setUser({
-    //         username: id,
-    //       }))
-    //       window.alert('로그인되었습니다.');
-    //       history.push('/');
-    //     }
-    //   })
   }
 }
 
@@ -143,6 +119,7 @@ const logInCheckStorage = () => {
     }
   };
 };
+
 // Reducers
 export default handleActions(
   {
