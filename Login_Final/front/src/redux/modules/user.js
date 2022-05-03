@@ -78,7 +78,7 @@ const loginAPI = (id, pwd) => {
           window.alert('로그인되었습니다.');
           history.push('/');
         }
-      }).catch((err or) => {
+      }).catch((error) => {
         console.log(error);
         window.alert(error);
       })
