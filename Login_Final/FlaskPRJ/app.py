@@ -2,6 +2,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from flask import Flask, jsonify
 from flask_restful import reqparse, abort, Api, Resource
+from datetime import datetime
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
@@ -13,7 +14,7 @@ def hello_world():
     return "Movie API"
 
 
-@app.route('/api/crawlingMovieInfo')
+@app.route('/crawlingMovieInfo')
 def crawlingMovieInfo():
     try:
         url = "https://movie.naver.com/movie/running/current.naver"
@@ -34,11 +35,19 @@ def crawlingMovieInfo():
             title = movieList.findAll('dt', 'tit')[i].find('a').getText()
             imgUrl = movieList.findAll('div', 'thumb')[i].find('img')['src']
 
-            movieInfo = {"title": title, "code": code, "comment":comments, "movie_type":movie_type, "imgUrl":imgUrl + str(code)}
+            movieInfo = {"title": title, "comments": comments, "movie_type": movie_type, "imgUrl":imgUrl, }
             movieInfoList.append(movieInfo)
+            # with urlopen(imgUrl) as f:
+            #     with open("../SpringPRJ/WebContent/resources/assets/movieImg/" + str(code) + ".jpg", "wb") as h:
+            #         img = f.read()
+            #         h.write(img)
         # result["movieInfo"] = movieInfoList
         result["movieInfo"] = movieInfoList;
 
+        result["date"] = datetime.today();
+
+        # f.close()
+        # h.close() 
 
         return jsonify(result)
 
@@ -53,13 +62,15 @@ def crawlingComments(code):
             url = f'https://movie.naver.com/movie/bi/mi/pointWriteFormList.nhn?code={code}&type=after&isActualPointWriteExecute=false&isMileageSubscriptionAlready=false&isMileageSubscriptionReject=false&page={page}'
             html = urlopen(url)
             soup = BeautifulSoup(html, 'html.parser')
-            for i in range(1, 10):
-                review = soup.find('span', {'id': f'_filtered_ment_{i}'})
-                review = review.get_text().strip()
-                review_list.append(review)
-        result = "".join(review_list)  # 문자열로 변환
 
-        return result
+        for i in range (1, 3):
+            movie_contents = soup.find({'class' : 'con_tx'}).text(i)
+
+        movie_content = "";
+        for i in movie_contents:
+            movie_content = movie_content + i.getText
+
+        return movie_content
 
     except Exception as e:
         return "No Comments"
