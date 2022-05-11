@@ -1,37 +1,128 @@
 package com.mobee.controller;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.mobee.entity.MovieApi;
+import com.mobee.repository.MovieRepository;
 import com.mobee.service.MovieApiService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class ApiController {
 
-    MovieApiService movieApiService;
+    private final MovieRepository movieRepository;
 
     private final String KEY = "bf4027c3100b9e4e2dc3221cfb994433";
+
     private String result = "";
 
+    // 총 페이지를 알아내기 위한 컨트롤러
     @ResponseBody
     @GetMapping("/api/getPages")
-    public String  getPages() {
+    public int getPages() {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
+        int page = 0 ;
 
-            for (int i = 1; i <= 100; i++) {
+        log.info("getPage Service 시작!");
 
+        try {
+            URL url = new URL("https://api.themoviedb.org/3/discover/movie?api_key="
+                    + KEY + "&release_date.gte=2022-01-01&watch_region=KR&language=ko");
 
+            BufferedReader bf;
+
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+            result = bf.readLine();
+
+            JsonParser jsonParser = new JsonParser();
+
+            JsonObject jsonObject = (JsonObject) jsonParser.parse(result);
+
+            String pages = jsonObject.get("total_pages").toString();
+
+            page = Integer.parseInt(pages);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        log.info("getPage Service 끝!");
+
+        return page;
+    }
+
+    // api 정보를 DB에 저장
+    @ResponseBody
+    @GetMapping("/api/getInfo")
+    public String getInfo() {
+
+        int pages = 1;
+
+        JsonArray list = null;
+        try {
+
+            for (int i = 2; i <= 2; i++) {
+                String apiURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + KEY
+                        + "&release_date.gte=2013-01-01&watch_region=KR&language=ko&page=" + i;
+
+                URL url = new URL(apiURL);
+
+                BufferedReader bf;
+
+                bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+                result = bf.readLine();
+
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jsonObject = (JsonObject) jsonParser.parse(result);
+                list = (JsonArray) jsonObject.get("results");
+
+                for (int k = 0; k < list.size(); k++) {
+                    JsonObject contents = (JsonObject) list.get(k);
+                    movieRepository.save(
+                            MovieApi.builder()
+                                    .contents_num(Long.parseLong(String.valueOf(contents.get("id"))))
+                                    .overview(contents.get("overview").toString())
+                                    .vote_average(Float.parseFloat(String.valueOf(contents.get("vote_average"))))
+                                    .title(contents.get("title").toString())
+                                    .poster_path(contents.get("poster_path").toString())
+                                    .build()
+                    );
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return "good!";
+        return "ok";
+    }
+
+    @RequestMapping(value = "crawlingMovieInfo")
+    @ResponseBody
+    public String movieApi(HttpServletRequest request, ModelMap model) throws Exception {
+
+        String url = "http://127.0.0.1:5000/crawlingMovieInfo";
+
+        String rr = request.getParameter("title");
+
+        log.info(rr);
+
+        return "성공!";
     }
 
 }

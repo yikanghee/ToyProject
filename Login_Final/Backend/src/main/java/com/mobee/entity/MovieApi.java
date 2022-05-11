@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -21,7 +23,9 @@ public class MovieApi {
     @Column
     private Long contents_num;
 
-    @Column
+    @Column(length = 1000)
+    @NotBlank
+    @NotNull
     private String overview;
 
     @Column
