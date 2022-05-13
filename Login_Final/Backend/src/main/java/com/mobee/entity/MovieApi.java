@@ -1,31 +1,30 @@
 package com.mobee.entity;
 
 
+import com.sun.scenario.effect.Identity;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Getter
 @AllArgsConstructor
+@Table(name="mobee.mobee_movie_api")
 public class MovieApi {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column
     private Long contents_num;
 
-    @Column(length = 1000)
-    @NotBlank
-    @NotNull
+    @Column(length = 10000)
     private String overview;
 
     @Column

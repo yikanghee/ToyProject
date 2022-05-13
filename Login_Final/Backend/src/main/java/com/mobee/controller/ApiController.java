@@ -25,6 +25,7 @@ import java.net.URL;
 public class ApiController {
 
     private final MovieRepository movieRepository;
+    private final MovieApiService movieApiService;
 
     private final String KEY = "bf4027c3100b9e4e2dc3221cfb994433";
 
@@ -73,10 +74,10 @@ public class ApiController {
 
         int pages = 1;
 
-        JsonArray list = null;
+
         try {
 
-            for (int i = 2; i <= 2; i++) {
+            for (int i = 1; i <= 500; i++) {
                 String apiURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + KEY
                         + "&release_date.gte=2013-01-01&watch_region=KR&language=ko&page=" + i;
 
@@ -88,22 +89,7 @@ public class ApiController {
 
                 result = bf.readLine();
 
-                JsonParser jsonParser = new JsonParser();
-                JsonObject jsonObject = (JsonObject) jsonParser.parse(result);
-                list = (JsonArray) jsonObject.get("results");
-
-                for (int k = 0; k < list.size(); k++) {
-                    JsonObject contents = (JsonObject) list.get(k);
-                    movieRepository.save(
-                            MovieApi.builder()
-                                    .contents_num(Long.parseLong(String.valueOf(contents.get("id"))))
-                                    .overview(contents.get("overview").toString())
-                                    .vote_average(Float.parseFloat(String.valueOf(contents.get("vote_average"))))
-                                    .title(contents.get("title").toString())
-                                    .poster_path(contents.get("poster_path").toString())
-                                    .build()
-                    );
-                }
+                movieApiService.getInfo(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
