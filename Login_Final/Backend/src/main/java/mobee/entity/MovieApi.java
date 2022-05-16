@@ -1,10 +1,13 @@
 package mobee.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -13,6 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Table(name="mobee.MovieApi")
 public class MovieApi {
 
@@ -39,6 +43,35 @@ public class MovieApi {
 
     private LocalDateTime modifiedAt;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "movieApi", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Builder.Default
+    private Set<Heart> hearts = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "movieApi", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Builder.Default
+    private Set<Comment> comments = new HashSet<>();
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+        comment.setMovieApi(this);
+    }
+
+    public void deleteComment(Comment comment){
+        this.comments.remove(comment);
+        comment.setMovieApi(null);
+    }
+
+    public void addHeart(Heart heart) {
+        this.hearts.add(heart);
+        heart.setMovieApi(this);
+    }
+
+    public void deleteHeart(Heart heart) {
+        this.hearts.remove(heart);
+        heart.setMovieApi(null);
+    }
 //    public MovieApi(Long contents_num, String overview, String title, Float vote_average, String poster_path, Date createdAt, Date) {
 //        this.contents_num = contents_num;
 //        this.overview = overview;
@@ -51,4 +84,18 @@ public class MovieApi {
 //    public MovieApi() {
 //
 //    }
+
+//    private Long id;
+//
+//    private String imgUrl;
+//
+//    @Column(nullable = false)
+//    private String title;
+//
+//    private String bookElement;
+//
+//    @Lob
+//    @Column(nullable = false)
+//    private String description;
+
 }

@@ -3,8 +3,7 @@ package mobee.dto;
 import lombok.Getter;
 
 @Getter
-public class CommentRquestDto {
-
+public class CommentRequestDTO {
     private String comment;
     private Integer starRate;
 }

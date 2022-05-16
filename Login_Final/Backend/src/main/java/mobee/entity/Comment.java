@@ -2,7 +2,7 @@ package mobee.entity;
 
 
 import lombok.*;
-import mobee.dto.CommentReuestDTO;
+import mobee.dto.CommentRequestDTO;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -40,12 +40,12 @@ public class Comment {
     @ManyToOne
     private Account account;
 
-    public Comment(CommentReuestDTO requestDTO) {
+    public Comment(CommentRequestDTO requestDTO) {
         this.comment = requestDTO.getComment();
         this.starRate = requestDTO.getStarRate();
     }
 
-    public void updateComment(CommentReuestDTO requestDTO) {
+    public void updateComment(CommentRequestDTO requestDTO) {
         this.comment = requestDTO.getComment();
         this.starRate = requestDTO.getStarRate();
     }

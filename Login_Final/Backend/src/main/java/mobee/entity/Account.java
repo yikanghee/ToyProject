@@ -1,5 +1,6 @@
 package mobee.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -40,9 +41,38 @@ public class Account {
         this.password = password;
     }
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @Builder.Default
+    private Set<Heart> hearts = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Builder.Default
+    private Set<Comment> comments = new HashSet<>();
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+        comment.setAccount(this);
+    }
+
+    public void deleteComment(Comment comment){
+        this.comments.remove(comment);
+
+    }
+
+    public void addHeart(Heart heart) {
+        this.hearts.add(heart);
+        heart.setAccount(this);
+    }
+
+    public void deleteHeart(Heart heart) {
+        this.hearts.remove(heart);
+        heart.setAccount(null);
+    }
 
 }

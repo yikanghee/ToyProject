@@ -6,13 +6,18 @@ import { connectRouter } from "connected-react-router";
 
 // Modules
 import User from "./modules/user";
-
+import Movies from "./modules/movie";
+import review from "./modules/review";
+import heart from "./modules/heart";
 
 export const history = createBrowserHistory();
 
 // export한 Reducer를 모으기
 const rootReducer = combineReducers({
   user: User,
+  movies: Movies,
+  review: review,
+  heart: heart,
   router: connectRouter(history),
 });
 
