@@ -28,7 +28,7 @@ public class MovieApi {
     private Long contents_num;
 
     @Column(length = 10000)
-    private String overview;
+    private String description;
 
     @Column
     private String title;
@@ -37,7 +37,7 @@ public class MovieApi {
     private Float vote_average;
 
     @Column
-    private String poster_path;
+    private String imgUrl;
 
     private LocalDateTime createdAt;
 

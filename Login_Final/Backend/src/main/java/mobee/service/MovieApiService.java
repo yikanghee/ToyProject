@@ -35,10 +35,10 @@ public class MovieApiService {
             movieRepository.save(
                     MovieApi.builder()
                             .contents_num(Long.parseLong(String.valueOf(contents.get("id"))))
-                            .overview(contents.get("overview").toString())
+                            .description(contents.get("overview").toString())
                             .vote_average(Float.parseFloat(String.valueOf(contents.get("vote_average"))))
                             .title(contents.get("title").toString())
-                            .poster_path(contents.get("poster_path").toString())
+                            .imgUrl(contents.get("poster_path").toString())
                             .createdAt(dateTime)
                             .modifiedAt(dateTime)
                             .build()

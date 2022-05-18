@@ -9,7 +9,7 @@ import axios from 'axios';
 // 리뷰 액션
 import { actionCreators as reviewActions } from "./review";
 // 좋아요 액션
-import { actionCreators as heartActions } from './heart';\
+import { actionCreators as heartActions } from './heart';
 
 // Action
 // 보여줄 책 리스트들 다룰 액션
@@ -40,7 +40,7 @@ const initialState = {
       current: 1,
     },
     // 디테일 페이지의 영화 정보
-    book_info: {
+    movie_info: {
       // id: 'id',
       // imgUrl: 'imgUrl',
       // title: 'title',
@@ -74,13 +74,13 @@ const initialState = {
     // 페이지에 맞춰 책 리스트 가져오기
     const MovieListAPI = (select) => {
         return function (dispatch, getState, {history}){
-            let currnet = getState().movies.paging.currnet;
+            let current = getState().movies.paging.currnet;
             // select가 좋아요, 별점순인 경우
             if (select === "heart" || select === "starRate") {
                 current = 1;
             }
             
-            const API = `http://localhost/api/movies?sort=${select}&page=${current}&size=24`;
+            const API = `http://localhost:8000/api/movies?sort=${select}&page=${current}&size=24`;
             axios.get(API)
             .then((response) =>{
                 return response.data
@@ -96,7 +96,7 @@ const initialState = {
 
     const MovieInfoAPI = (movie_id) => {
         return function (dispatch, getState, { history }) {
-            const API = `http://localhost/api/movies/${movie_id}`;
+            const API = `http://localhost:8000/api/movies/${movie_id}`;
             axios.get(API)
                 .then((response) => {
                     return response.data
@@ -111,7 +111,7 @@ const initialState = {
                 )
                 .then(
                     //리뷰 정보 가져오기
-                    dispatch(reviewAction.getReviewAPI(movie_id))
+                    dispatch(reviewActions.getReviewAPI(movie_id))
                 )
                 .catch((error) => {
                     window.alert('책 정보를 불러오지 못했습니다. 재시도해주세요');
@@ -123,7 +123,7 @@ const initialState = {
     // Reducers
     export default handleActions(
     {
-      [SET_BOOKS]: (state, action) =>
+      [SET_MOVIES]: (state, action) =>
         produce(state, (draft) => {
           draft.movie_list = action.payload.movie_list;
         }),

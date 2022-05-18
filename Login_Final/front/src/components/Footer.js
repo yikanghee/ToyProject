@@ -1,7 +1,7 @@
 import React from 'react';
 
 // 부트스트랩
-import { Jumbotron, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 //material-ui
 import InstagramIcon from "@material-ui/icons/Instagram";
@@ -14,16 +14,7 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 const Footer = (props) => {
 
   return (
-    <Jumbotron fluid
-      style={{
-        marginBottom: 0,
-        height: "300px",
-        backgroundColor: '#F7FAFC',
-        color: '#40474D',
-        textAlign: 'center',
-        boxSizing: 'border-box',
-        fontWegiht: 'bold',
-      }}>
+  
       <container>
         <div className="footer_head" >
           <p>뷰어 다운로드 • 이용 방법 • 이용권 등록 • FAQ</p>
@@ -78,7 +69,6 @@ const Footer = (props) => {
           }}>
           © RIDI Corp.</p>
       </container>
-    </Jumbotron>
   )
 
 };
